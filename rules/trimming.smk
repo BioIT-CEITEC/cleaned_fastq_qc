@@ -1,5 +1,5 @@
 rule merge_fastq_qc:
-    input:  inputs = {'html': expand("qc_reports/{sample}/cleaned_fastqc/{read_pair_tags}_fastqc.html",sample = sample_tab.sample_name, read_pair_tags = read_pair_tags)}
+    input:  html=expand("qc_reports/{sample}/cleaned_fastqc/{read_pair_tag}_fastqc.html",sample = sample_tab.sample_name, read_pair_tag = read_pair_tags)
     output: html = "qc_reports/cleaned_fastq_multiqc.html"
     log:    "logs/merge_fastq_qc.log"
     conda:  "../wrappers/merge_fastq_qc/env.yaml"
