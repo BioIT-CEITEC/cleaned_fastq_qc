@@ -21,15 +21,10 @@
   ],
   "requested_params": [
     "is_paired",
+    "UMI"
   ],
   "gui_params": {
     "primary": {
-      "reference": {
-        "label": "Genomic Reference",
-        "type": "enum",
-        "default": ##INCLUDE:reference_info/default_reference.json##,
-        "list": ##INCLUDE:reference_info/reference2.json##
-      },
       "RNAseq_type" : {
         "label": "RNAseq type",
         "type": "enum",
@@ -55,15 +50,15 @@
       }
     },
     "detailed": {
-      "trim_adapters": {
-        "label": "Trim adapters",
-        "type": "string",
-        "default": ""
-      },
       "strandness": {
         "label": "Strandness (unstr,fwd,rev)",
-        "type": "string",
+        "type": "enum",
         "default": "unstr",
+        "list": {
+          "unstr": "Unstranded",
+          "fwd": "Forward",
+          "rev": "Reverse"
+        },
         "conditions": {
           "value": {
             "RNAseq_type": {
@@ -75,6 +70,11 @@
             }
           }
         }
+      },
+      "trim_adapters": {
+        "label": "Trim adapters",
+        "type": "string",
+        "default": ""
       },
       "trim_left1": {
         "label": "Trim left 1",
@@ -122,37 +122,11 @@
           }
         }
       },
-      "map_score": {
-        "label": "Map score",
-        "type": "string",
-        "default": "0.66"
-      },
-      "map_perc": {
-        "label": "Map perc",
-        "type": "string",
-        "default": "0.66"
-      },
-      "perc_mismatch": {
-        "label": "Perc mismatch",
-        "type": "string",
-        "default": "0.1"
-      },
       "min_length": {
         "label": "Min length",
         "type": "int",
         "default": 35
       },
-      "get_cov_tracks": {
-        "label": "Get coverage tracks",
-        "type": "bool",
-        "default": false
-      },
-       "lib_ROI": {
-        "label": "Regions of interest",
-        "type": "enum",
-        "default": "rna",
-        "list": {"rna": "RNA"}
-      }
     }
   }
 }
