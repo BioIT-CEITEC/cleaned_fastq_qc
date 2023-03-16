@@ -2,7 +2,7 @@
   "workflow_description": {
     "name": "cleaned_fastq_qc",
     "version": 1.0,
-    "label": "Raw fastq QC",
+    "label": "Clean fastq QC",
     "type": "cleaned_fastq_qc",
     "inputs": "raw_fastq/{sample}*fastq.gz",
     "outputs": [
@@ -126,7 +126,7 @@
         "label": "Min length",
         "type": "int",
         "default": 35
-      },
+      }
     }
   }
 }
