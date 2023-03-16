@@ -2,7 +2,7 @@
   "workflow_description": {
     "name": "cleaned_fastq_qc",
     "version": 1.0,
-    "label": "Clean fastq QC",
+    "label": "Cleaned fastq QC",
     "type": "cleaned_fastq_qc",
     "inputs": "raw_fastq/{sample}*fastq.gz",
     "outputs": [
