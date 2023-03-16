@@ -61,14 +61,9 @@
         "default": ""
       },
       "strandness": {
-        "label": "Strandness",
-        "type": "enum",
+        "label": "Strandness (unstr,fwd,rev)",
+        "type": "string",
         "default": "unstr",
-        "list": {
-          "unstr": "Unstranded",
-          "fwd": "Forward",
-          "rev": "Reverse"
-        },
         "conditions": {
           "value": {
             "RNAseq_type": {
