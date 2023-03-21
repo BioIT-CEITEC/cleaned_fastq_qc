@@ -73,11 +73,24 @@
       },
       "trim_adapters": {
         "label": "Trim adapters",
-        "type": "string",
-        "default": ""
+        "type": "enum",
+        "default": "default",
+        "list": {
+          "default"
+        }
       },
-      "trim_left1": {
-        "label": "Trim left 1",
+      "max_errors": {
+        "label": "Max error",
+        "type": "string",
+        "default": "0.1"
+      },
+      "min_overlap": {
+        "label": "Min overlap",
+        "type": "int",
+        "default": 3
+      },
+      "cut_left1": {
+        "label": "Cut left 1",
         "type": "int",
         "default": 0,
         "conditions": {
@@ -92,8 +105,8 @@
           }
         }
       },
-      "trim_left2": {
-        "label": "Trim left 2",
+      "cut_left2": {
+        "label": "Cut left 2",
         "type": "int",
         "default": 0,
         "conditions": {
@@ -105,19 +118,19 @@
           }
         }
       },
-      "trim_right1": {
-        "label": "Trim right 1",
+      "cut_right1": {
+        "label": "Cut right 1",
         "type": "int",
         "default": 0
       },
-      "trim_right2": {
-        "label": "Trim right 2",
+      "cut_right2": {
+        "label": "Cut right 2",
         "type": "int",
         "default": 0,
         "conditions": {
           "value": {
             "UMI": {
-              "CORALL": 9
+              "CORALL": -9
             }
           }
         }

@@ -31,16 +31,17 @@ def raw_fastq_qc_input(wildcards):
 rule preprocess:
     input:  raw = expand("raw_fastq/{{sample}}{read_tags}.fastq.gz",read_tags=pair_tag),
     output: cleaned = expand("cleaned_fastq/{{sample}}{read_tags}.fastq.gz",read_tags=pair_tag),
-    log:    "logs/{sample}/pre_alignment_processing.log"
+    log:    "logs/{sample}/preprocessing.log"
     threads: 10
     resources:  mem = 10
     params: adaptors = config["trim_adapters"],
+            max_errors = config["max_errors"],
             r1u = "cleaned_fastq/trimmed/{sample}_R1.discarded.fastq.gz",
             r2u = "cleaned_fastq/trimmed/{sample}_R2.discarded.fastq.gz",
-            trim_left1 = config["trim_left1"], # Applied only if trim left is true, trimming from R1 (different for classic:0, quant:10, sense:9)
-            trim_right1 = config["trim_right1"], # Applied only if trim right is true, trimming from R1; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
-            trim_left2 = config["trim_left2"], # Applied only if trim left is true, trimming from R2 (different for classic:0, quant:?, sense:7)
-            trim_right2 = config["trim_right2"], # Applied only if trim right is true, trimming from R2; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
+            cut_left1 = config["cut_left1"], # Applied only if trim left is true, trimming from R1 (different for classic:0, quant:10, sense:9)
+            cut_right1 = config["cut_right1"], # Applied only if trim right is true, trimming from R1; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
+            cut_left2 = config["cut_left2"], # Applied only if trim left is true, trimming from R2 (different for classic:0, quant:?, sense:7)
+            cut_right2 = config["cut_right2"], # Applied only if trim right is true, trimming from R2; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
             phred = "-phred33",
             leading = 3,
             trailing = 3,
