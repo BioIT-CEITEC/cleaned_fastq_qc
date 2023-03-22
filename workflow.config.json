@@ -74,12 +74,28 @@
       "trim_adapters": {
         "label": "Trim adapters",
         "type": "enum",
-        "default": "default",
+        "default": "illumina",
         "list": {
-          "default"
+          "illumina": "Illumina",
+          "nextera": "Nextera",
+          "custom": "Custom"
         }
       },
-      "max_errors": {
+      "adapter_seq": {
+        "label": "Adapter sequence",
+        "type": "string",
+        "default": "",
+        "conditions": {
+          "value": {
+            "trim_adapters": {
+              "illumina": "AGATCGGAAGAGC",
+              "nextera": "CTGTCTCTTATA",
+              "custom": ""
+            }
+          }
+        }
+      },
+      "max_error": {
         "label": "Max error",
         "type": "string",
         "default": "0.1"
@@ -88,6 +104,11 @@
         "label": "Min overlap",
         "type": "int",
         "default": 3
+      },
+      "quality_trim": {
+        "label": "Quality trimming (5’ cutoff,3’ cutoff)",
+        "type": "string",
+        "default": "0,20"
       },
       "cut_left1": {
         "label": "Cut left 1",
@@ -139,6 +160,20 @@
         "label": "Min length",
         "type": "int",
         "default": 35
+      },
+      "max_length": {
+        "label": "Max length",
+        "type": "int",
+        "default": 250
+      },
+      "quality_base": {
+        "label": "Quality base",
+        "type": "enum",
+        "default": "33",
+        "list": {
+          "33": "phred-33",
+          "64": "phred-64"
+        }
       }
     }
   }

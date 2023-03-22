@@ -69,7 +69,20 @@ shell(command)
 if is_paired:
     if snakemake.params.adaptors != "":
         adaptors = snakemake.params.adaptors.split(",")
-        with open(os.path.dirname(fastq_c2) + "/adapters.fa", "w") as adaptor_file:
+        with open(os.path.dirname(fastq_c1) + "/adapter1.fa", "w") as adaptor_file:
+            for i, adaptor in enumerate(adaptors):
+                if adaptor.split("-")[0] == "1":
+                    adaptor_file1.write(">adapt" + str(i) + "\n")
+                    adaptor_file1.write(adaptor.split("-")[1] + "\n")
+                    if (len(adaptor.split("-")[1]) < 20):
+                        simpleClipThreshold = min(len(adaptor.split("-")[1]) // 2, simpleClipThreshold)
+                else:
+                    adaptor_file1.write(">adapt" + str(i) + "\n")
+                    adaptor_file1.write(adaptor + "\n")
+                    if (len(adaptor) < 20):
+                        simpleClipThreshold = min(len(adaptor) // 2, simpleClipThreshold)
+
+        with open(os.path.dirname(fastq_c1) + "/adapter2.fa", "w") as adaptor_file2:
             for i, adaptor in enumerate(adaptors):
                 if adaptor.split("-")[0] == "1":
                     adaptor_file.write(">adapt" + str(i) + "/1\n")
@@ -93,6 +106,7 @@ if is_paired:
     f.close()
     shell(command)
 
+    command = "cutadapt -a ADAPTER_FWD -A ADAPTER_REV -o out.1.fastq -p out.2.fastq reads.1.fastq reads.2.fastq"
     command = "trimmomatic PE -threads "+str(snakemake.threads)+" "+snakemake.params.phred+" "+input_r1+" "+input_r2+" "+fastq_c1+"\
         "+snakemake.params.r1u+" "+fastq_c2+" "+snakemake.params.r2u+" CROP:"+str(snakemake.params.crop)+" LEADING:"+str(snakemake.params.leading)+"\
         TRAILING:"+str(snakemake.params.trailing)+" SLIDINGWINDOW:"+str(snakemake.params.slid_w_1)+":"+str(snakemake.params.slid_w_2)+" "+adaptors+" MINLEN:"+str(snakemake.params.minlen)+"\
