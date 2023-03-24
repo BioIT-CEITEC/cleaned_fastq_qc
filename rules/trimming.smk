@@ -34,19 +34,22 @@ rule preprocess:
     log:    "logs/{sample}/preprocessing.log"
     threads: 10
     resources:  mem = 10
-    params: adaptors = config["adapter_seq"],
+    params: trim_adapters = config["trim_adapters"],
+            adapter_seq = config["adapter_seq"],
+            adapter_type = config["adapter_type"],
             max_error = config["max_error"],
             min_overlap = config["min_overlap"],
+            quality_trim= config["quality_trim"],
             r1u = "cleaned_fastq/trimmed/{sample}_R1.discarded.fastq.gz",
             r2u = "cleaned_fastq/trimmed/{sample}_R2.discarded.fastq.gz",
             cut_left1 = config["cut_left1"], # Applied only if trim left is true, trimming from R1 (different for classic:0, quant:10, sense:9)
             cut_right1 = config["cut_right1"], # Applied only if trim right is true, trimming from R1; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
             cut_left2 = config["cut_left2"], # Applied only if trim left is true, trimming from R2 (different for classic:0, quant:?, sense:7)
             cut_right2 = config["cut_right2"], # Applied only if trim right is true, trimming from R2; you should allow this if you want to trim the last extra base and TRIM_LE is true as RD_LENGTH is not effective
-            phred = config["quality_base"],
-            quality_trim = config["quality_trim"],
+            quality_base = config["quality_base"],
             min_length = config["min_length"],
-            max_length= config["max_length"],
+            max_length = config["max_length"],
+            trim_stats= "qc_report/{sample}/cutadapt/{sample}_preprocessing.log"
     conda:  "../wrappers/preprocess/env.yaml"
     script: "../wrappers/preprocess/script.py"
 
