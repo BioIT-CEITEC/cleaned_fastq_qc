@@ -51,7 +51,7 @@ shell(command)
 # Set the command part related to cut the reads
 cut_flags = ""
 if int(snakemake.params.cut_left1) != 0 or int(snakemake.params.cut_right1) != 0:
-    cut_flags =  " -u "+str(abs(snakemake.params.cut_left1)) if int(snakemake.params.cut_left1) != 0 else ""
+    cut_flags = " -u "+str(abs(snakemake.params.cut_left1)) if int(snakemake.params.cut_left1) != 0 else ""
     cut_flags += " -u "+str(snakemake.params.cut_right1) if int(snakemake.params.cut_right1) != 0 else ""
 
 if is_paired:
@@ -64,50 +64,37 @@ if is_paired:
 simpleClipThreshold = 10
 # TODO: check for better settings (see: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf starting at page 5, or http://www.usadellab.org/cms/?page=trimmomatic)
 
-if snakemake.params.trim_adapters == "illumina":
-    adapters = "AGATCGGAAGAGC"
-if snakemake.params.trim_adapters == "nextera":
-    adapters = "CTGTCTCTTATA"
+adapter_list = str(snakemake.params.adapter_seq)
 
-if snakemake.params.adapter_seq != "":
-    adapters = snakemake.params.adapters.split(",")
+if snakemake.params.trim_adapters == "illumina":
+    adapter_list = "AGATCGGAAGAGC"
+if snakemake.params.trim_adapters == "nextera":
+    adapter_list = "CTGTCTCTTATA"
+
+print(adapter_list)
+
+if adapter_list != "":
+    adapters = adapter_list.split(",")
     with open(os.path.dirname(fastq_c1) + "/adapter1.fa", "w") as adapter_file1:
+      with open(os.path.dirname(fastq_c1) + "/adapter2.fa", "w") as adapter_file2:
         for i, adapter in enumerate(adapters):
             if adapter.split("-")[0] != "2":
                     adapter_file1.write(">adapt" + str(i) + "\n")
-                    adapter_file1.write(adapter.split("-")[1] + "\n")
-                    if (len(adapter.split("-")[1]) < 20):
-                        simpleClipThreshold = min(len(adapter.split("-")[1]) // 2, simpleClipThreshold)
-            else:
-                    adapter_file1.write(">adapt" + str(i) + "\n")
-                    adapter_file1.write(adapter + "\n")
-                    if (len(adapter) < 20):
-                        simpleClipThreshold = min(len(adapter) // 2, simpleClipThreshold)
-    adapter_flags = " -" + snakemake.params.adapter_type +" file:" + os.path.dirname(fastq_c1) + "/adapter1.fa "
-
+                    adapter_file1.write(adapter.replace("1-","") + "\n")
+            if adapter.split("-")[0] != "1":
+                adapter_file2.write(">adapt" + str(i) + "\n")
+                adapter_file2.write(adapter.replace("2-","") + "\n")
+    adapter_flags = " -" + snakemake.params.adapter_type + " file:" + os.path.dirname(fastq_c1) + "/adapter1.fa "
     if is_paired:
-        with open(os.path.dirname(fastq_c2) + "/adapter2.fa", "w") as adapter_file2:
-            for i, adapter in enumerate(adapters):
-                if adapter.split("-")[0] != "1":
-                    adapter_file2.write(">adapt" + str(i) + "\n")
-                    adapter_file2.write(adapter.split("-")[1] + "\n")
-                    if (len(adapter.split("-")[1]) < 20):
-                        simpleClipThreshold = min(len(adapter.split("-")[1]) // 2, simpleClipThreshold)
-                else:
-                    adapter_file2.write(">adapt" + str(i) + "\n")
-                    adapter_file2.write(adapter + "\n")
-                    if (len(adapter) < 20):
-                        simpleClipThreshold = min(len(adapter) // 2, simpleClipThreshold)
-
-    adapter_flags = adapter_flags + " -" + snakemake.adapter_type.upper() + " file:" + os.path.dirname(fastq_c2) + "/adapter2.fa "
+      adapter_flags = adapter_flags + " -" + snakemake.params.adapter_type.upper() + " file:" + os.path.dirname(fastq_c1) + "/adapter2.fa "
 else:
     adapter_flags = ""
 
 command = "cutadapt -j " + str(snakemake.threads) + " --quality-base=" + str(snakemake.params.quality_base) + " \
                 -q " + str(snakemake.params.quality_trim) + " -m " + str(snakemake.params.min_length)+ " \
                 --too-short-output " + fastq_u1 + fastq_u2 + "\
-                -M "+ str(snakemake.params.max_length) + cut_flags + adapter_flags + " \
-                -o " + fastq_c1 + fastq_c2 + " " +fastq_r1+" "+fastq_r2 +" >> "+str(snakemake.params.trim_stats)+" 2>&1 "
+                -M " + str(snakemake.params.max_length) + cut_flags + adapter_flags + " \
+                -o " + fastq_c1 + fastq_c2 + " " + fastq_r1 + " " + fastq_r2 + " >> " + str(snakemake.params.trim_stats) + " 2>&1 "
 
 f = open(log_filename, 'at')
 f.write("## COMMAND: "+command+"\n")
