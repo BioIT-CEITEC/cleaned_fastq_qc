@@ -49,7 +49,7 @@ rule preprocess:
             quality_base = config["quality_base"],
             min_length = config["min_length"],
             max_length = config["max_length"],
-            trim_stats= "qc_report/{sample}/cutadapt/{sample}_preprocessing.log"
+            trim_stats= "qc_reports/{sample}/cutadapt/{sample}_preprocessing.log"
     conda:  "../wrappers/preprocess/env.yaml"
     script: "../wrappers/preprocess/script.py"
 

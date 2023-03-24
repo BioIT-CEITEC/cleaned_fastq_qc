@@ -7,6 +7,21 @@ from snakemake.shell import shell
 shell.executable("/bin/bash")
 log_filename = str(snakemake.log)
 
+f = open(log_filename, 'wt')
+f.write("\n##\n## RULE: preprocess \n##\n")
+f.close()
+
+version = str(subprocess.Popen("conda list ", shell=True, stdout=subprocess.PIPE).communicate()[0], 'utf-8')
+f = open(log_filename, 'at')
+f.write("## CONDA: "+version+"\n")
+f.close()
+
+command = "mkdir -p " + os.path.dirname(snakemake.params.trim_stats)
+f = open(log_filename, 'at')
+f.write("## COMMAND: " + command + "\n")
+f.close()
+shell(command)
+
 if len(snakemake.input.raw) == 2:
     is_paired = True
     fastq_r1 = snakemake.input.raw[0]
@@ -27,15 +42,11 @@ else:
     fastq_u1 = snakemake.params.r1u
     fastq_u2 = ""
 
-f = open(log_filename, 'wt')
-f.write("\n##\n## RULE: preprocess \n##\n")
-f.close()
-
-version = str(subprocess.Popen("conda list ", shell=True, stdout=subprocess.PIPE).communicate()[0], 'utf-8')
+command = "mkdir -p " + os.path.dirname(snakemake.params.r1u)
 f = open(log_filename, 'at')
-f.write("## CONDA: "+version+"\n")
+f.write("## COMMAND: " + command + "\n")
 f.close()
-
+shell(command)
 
 # Set the command part related to cut the reads
 cut_flags = ""
@@ -53,12 +64,10 @@ if is_paired:
 simpleClipThreshold = 10
 # TODO: check for better settings (see: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf starting at page 5, or http://www.usadellab.org/cms/?page=trimmomatic)
 
-command = "mkdir -p " + os.path.dirname(snakemake.params.trim_stats)
-f = open(log_filename, 'at')
-f.write("## COMMAND: " + command + "\n")
-f.close()
-shell(command)
-
+if snakemake.params.trim_adapters == "illumina":
+    adapters = "AGATCGGAAGAGC"
+if snakemake.params.trim_adapters == "nextera":
+    adapters = "CTGTCTCTTATA"
 
 if snakemake.params.adapter_seq != "":
     adapters = snakemake.params.adapters.split(",")
@@ -69,7 +78,7 @@ if snakemake.params.adapter_seq != "":
                     adapter_file1.write(adapter.split("-")[1] + "\n")
                     if (len(adapter.split("-")[1]) < 20):
                         simpleClipThreshold = min(len(adapter.split("-")[1]) // 2, simpleClipThreshold)
-                else:
+            else:
                     adapter_file1.write(">adapt" + str(i) + "\n")
                     adapter_file1.write(adapter + "\n")
                     if (len(adapter) < 20):
@@ -98,7 +107,7 @@ command = "cutadapt -j " + str(snakemake.threads) + " --quality-base=" + str(sna
                 -q " + str(snakemake.params.quality_trim) + " -m " + str(snakemake.params.min_length)+ " \
                 --too-short-output " + fastq_u1 + fastq_u2 + "\
                 -M "+ str(snakemake.params.max_length) + cut_flags + adapter_flags + " \
-                -o " + fastq_c1 + fastq_c2 + " " +fastq_r1+" "+fastq_r2 +" >> "+snakemake.params.trim_stats+" 2>&1 "
+                -o " + fastq_c1 + fastq_c2 + " " +fastq_r1+" "+fastq_r2 +" >> "+str(snakemake.params.trim_stats)+" 2>&1 "
 
 f = open(log_filename, 'at')
 f.write("## COMMAND: "+command+"\n")

@@ -74,7 +74,7 @@
       "trim_adapters": {
         "label": "Trim adapters",
         "type": "enum",
-        "default": "illumina",
+        "default": "custom",
         "list": {
           "illumina": "Illumina",
           "nextera": "Nextera",
@@ -84,16 +84,7 @@
       "adapter_seq": {
         "label": "Adapter sequence (1-xx,2-yy,zz)",
         "type": "string",
-        "default": "",
-        "conditions": {
-          "value": {
-            "trim_adapters": {
-              "illumina": "AGATCGGAAGAGC",
-              "nextera": "CTGTCTCTTATA",
-              "custom": ""
-            }
-          }
-        }
+        "default": ""
       },
       "adapter_type": {
         "label": "Adapter type",
