@@ -66,9 +66,11 @@ simpleClipThreshold = 10
 
 if snakemake.params.trim_adapters:
   if snakemake.params.trim_adapter_select == "illumina":
-    adapter_list = "AGATCGGAAGAGC"
+    adapter_list = ["1-AGATCGGAAGAGCACACGTCTGAACTCCAGTCA,2-AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"]
   if snakemake.params.trim_adapter_select == "nextera":
-    adapter_list = "CTGTCTCTTATA"
+    adapter_list = "CTGTCTCTTATACACATCT"
+  if snakemake.params.trim_adapter_select == "smallRNA":
+    adapter_list = "TGGAATTCTCGGGTGCCAAGG"
   if snakemake.params.trim_adapter_select == "custom":
     adapter_list = str(snakemake.params.adapter_seq)
 else:

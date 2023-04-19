@@ -83,6 +83,7 @@
         "list": {
           "illumina": "Illumina (AGATCGGAAGAGC)",
           "nextera": "Nextera (CTGTCTCTTATA)",
+          "smallRNA": "small RNA (TGGAATTCTCGG)",
           "custom": "Custom"
         },
         "conditions": {
