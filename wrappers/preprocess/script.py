@@ -64,12 +64,15 @@ if is_paired:
 simpleClipThreshold = 10
 # TODO: check for better settings (see: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf starting at page 5, or http://www.usadellab.org/cms/?page=trimmomatic)
 
-adapter_list = str(snakemake.params.adapter_seq)
-
-if snakemake.params.trim_adapters == "illumina":
+if snakemake.params.trim_adapters:
+  if snakemake.params.trim_adapter_select == "illumina":
     adapter_list = "AGATCGGAAGAGC"
-if snakemake.params.trim_adapters == "nextera":
+  if snakemake.params.trim_adapter_select == "nextera":
     adapter_list = "CTGTCTCTTATA"
+  if snakemake.params.trim_adapter_select == "custom":
+    adapter_list = str(snakemake.params.adapter_seq)
+else:
+    adapter_list = ""
 
 print(adapter_list)
 

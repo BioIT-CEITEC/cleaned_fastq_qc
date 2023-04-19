@@ -35,6 +35,7 @@ rule preprocess:
     threads: 10
     resources:  mem = 10
     params: trim_adapters = config["trim_adapters"],
+            trim_adapter_select = config["trim_adapter_select"],
             adapter_seq = config["adapter_seq"],
             adapter_type = config["adapter_type"],
             max_error = config["max_error"],

@@ -73,18 +73,41 @@
       },
       "trim_adapters": {
         "label": "Trim adapters",
+        "type": "bool",
+        "default": true
+      },
+      "trim_adapter_select": {
+        "label": "Trim adapter selection",
         "type": "enum",
-        "default": "custom",
+        "default": "illumina",
         "list": {
-          "illumina": "Illumina",
-          "nextera": "Nextera",
+          "illumina": "Illumina (AGATCGGAAGAGC)",
+          "nextera": "Nextera (CTGTCTCTTATA)",
           "custom": "Custom"
+        },
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "trim_adapters": true
+            }
+          }
         }
       },
       "adapter_seq": {
         "label": "Adapter sequence (1-xx,2-yy,zz)",
         "type": "string",
-        "default": ""
+        "default": "",
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "trim_adapter_select": "custom"
+            }
+          }
+        }
       },
       "adapter_type": {
         "label": "Adapter type",
@@ -99,12 +122,30 @@
       "max_error": {
         "label": "Max error",
         "type": "string",
-        "default": "0.1"
+        "default": "0.1",
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "trim_adapters": true
+            }
+          }
+        }
       },
       "min_overlap": {
         "label": "Min overlap",
         "type": "int",
-        "default": 3
+        "default": 3,
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "trim_adapters": true
+            }
+          }
+        }
       },
       "quality_trim": {
         "label": "Quality trimming (5’ cutoff,3’ cutoff)",
