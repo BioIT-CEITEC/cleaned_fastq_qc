@@ -117,6 +117,15 @@
           "a": "Regular 3 prime",
           "g": "Regular 5 prime",
           "b": "Both type"
+        },
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "trim_adapters": true
+            }
+          }
         }
       },
       "max_error": {
