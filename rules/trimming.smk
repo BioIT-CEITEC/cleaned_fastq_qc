@@ -1,5 +1,5 @@
 rule merge_fastq_qc:
-    input:  html=expand("qc_reports/{sample}/cleaned_fastqc/{read_pair_tag}_fastqc.html",sample = sample_tab.sample_name, read_pair_tag = read_pair_tags)
+    input:  html=expand("qc_reports/{sample}/cleaned_fastqc/{read_pair_tag}_trim_fastqc.html",sample = sample_tab.sample_name, read_pair_tag = read_pair_tags)
     output: html = "qc_reports/cleaned_fastq_multiqc.html"
     log:    "logs/merge_fastq_qc.log"
     conda:  "../wrappers/merge_fastq_qc/env.yaml"
@@ -14,7 +14,7 @@ def cleaned_fastq_qc_input(wildcards):
 
 rule cleaned_fastq_qc:
     input:  cleaned = cleaned_fastq_qc_input,
-    output: html = "qc_reports/{sample}/cleaned_fastqc/{read_pair_tags}_fastqc.html",
+    output: html = "qc_reports/{sample}/cleaned_fastqc/{read_pair_tags}_trim_fastqc.html",
     log:    "logs/{sample}/cleaned_fastqc_{read_pair_tags}.log"
     params: extra = "--noextract --format fastq --nogroup",
     threads:  2
