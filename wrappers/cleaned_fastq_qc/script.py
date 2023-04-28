@@ -51,9 +51,9 @@ f.close()
 shell(command)
 
 if tags == "":
-    zip_out_basename = "SE_fastqc.zip"
+    zip_out_basename = "SE_trim_fastqc.zip"
 else:
-    zip_out_basename = tags.replace("_","") + "_fastqc.zip"
+    zip_out_basename = tags.replace("_","") + "_trim_fastqc.zip"
 
 command = "mv " + dirname(snakemake.output.html) + "/" + basename(tag_input_fastq).replace(".fastq.gz","_fastqc.zip") + " " + dirname(snakemake.output.html) + "/" + zip_out_basename
 f = open(log_filename, 'at')
