@@ -50,27 +50,6 @@
       }
     },
     "detailed": {
-      "strandness": {
-        "label": "Strandness (unstr,fwd,rev)",
-        "type": "enum",
-        "default": "unstr",
-        "list": {
-          "unstr": "Unstranded",
-          "fwd": "Forward",
-          "rev": "Reverse"
-        },
-        "conditions": {
-          "value": {
-            "RNAseq_type": {
-              "classic_fwd": "fwd",
-              "classic_rev": "rev",
-              "quant_fwd": "fwd",
-              "quant_rev": "fwd",
-              "sense": "rev"
-            }
-          }
-        }
-      },
       "trim_adapters": {
         "label": "Trim adapters",
         "type": "bool",
