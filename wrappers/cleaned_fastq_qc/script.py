@@ -24,11 +24,11 @@ f.write("## COMMAND: "+command+"\n")
 f.close()
 shell(command)
 
-tags=""
-if re.search("_R1.fastq",str(snakemake.input.cleaned)):
-    tags="_R1"
-elif re.search("_R2.fastq",str(snakemake.input.cleaned)):
-    tags = "_R2"
+if snakemake.params.paired:
+    if re.search("_R1.fastq",str(snakemake.input.cleaned)):
+        tags = "_R1"
+    else:
+        tags = "_R2"
 else:
     tags = ""
 
