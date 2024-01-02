@@ -9,20 +9,22 @@ configfile: "config.json"
 GLOBAL_REF_PATH = config["globalResources"]
 GLOBAL_TMPD_PATH = config["globalTmpdPath"]
 
+os.makedirs(GLOBAL_TMPD_PATH, exist_ok=True)
+
+##### BioRoot utilities #####
+module BR:
+    snakefile: gitlab("bioroots/bioroots_utilities", path="bioroots_utilities.smk",branch="master")
+    config: config
+
+use rule * from BR as other_*
+
 ##### Config processing #####
-# Samples
-#
 
-sample_tab = pd.DataFrame.from_dict(config["samples"],orient="index")
+sample_tab = BR.load_sample()
 
-if not config["is_paired"]:
-    read_pair_tags = ["SE"]
-    pair_tag = [""]
-    paired = "SE"
-else:
-    read_pair_tags = ["R1","R2"]
-    pair_tag = ["_R1","_R2"]
-    paired = "PE"
+read_pair_tags = BR.set_read_pair_qc_tags()
+pair_tag = BR.set_read_pair_tags()
+paired = BR.set_paired_tags()
 
 wildcard_constraints:
     sample = "|".join(sample_tab.sample_name)

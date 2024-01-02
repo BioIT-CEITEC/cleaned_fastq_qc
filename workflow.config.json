@@ -1,9 +1,13 @@
 {
   "workflow_description": {
     "name": "cleaned_fastq_qc",
-    "version": 1.1,
+    "version": 2.0,
     "label": "Cleaned fastq QC",
     "type": "cleaned_fastq_qc",
+    "run_parameters": {
+      "cpu": 30,
+      "memory": 65
+    },
     "inputs": "raw_fastq/{sample}*fastq.gz",
     "outputs": [
       "cleaned_fastq/{sample}*fastq.gz",
