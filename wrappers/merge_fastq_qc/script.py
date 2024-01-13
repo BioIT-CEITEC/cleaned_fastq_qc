@@ -19,7 +19,7 @@ f.close()
 search_path = " ".join([dirname(fastqc_html) for fastqc_html in snakemake.input.html]) + " ./qc_reports/*/cutadapt/*"
 
 command = "multiqc -f -n " + snakemake.output.html + " " + search_path + \
-              " --cl_config \"{{read_count_multiplier: 0.001, read_count_prefix: 'K', read_count_desc: 'thousands' }}\" >> "+log_filename+" 2>&1"
+              " --cl-config \"{{read_count_multiplier: 0.001, read_count_prefix: 'K', read_count_desc: 'thousands' }}\" >> "+log_filename+" 2>&1"
 f = open(log_filename, 'at')
 f.write("## COMMAND: "+command+"\n")
 f.close()
