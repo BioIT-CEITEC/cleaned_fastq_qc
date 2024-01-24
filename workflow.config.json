@@ -24,12 +24,44 @@
     "sample_name"
   ],
   "requested_params": [
-    "is_paired",
-    "UMI"
+    "is_paired"
   ],
   "gui_params": {
-    "primary": {},
+    "primary": {
+      "UMI": {
+        "label": "UMI",
+        "type": "enum",
+        "default": "no_umi",
+        "list": {
+          "no_umi": "No UMI",
+          "BRONCO": "BRONCO",
+          "Quantseq FWD": "Quantseq FWD",
+          "CORALL": "CORALL",
+          "custom_umi": "Custom specified UMI",
+          "CS_UMI": "CS_UMI",
+          "CS_UMI_sep_file": "CS_UMI_sep_file",
+          "IDT": "IDT",
+          "BRB": "BRB",
+          "LYNX": "LYNX",
+          "Qiaseq": "Qiaseq",
+          "TruSight_Oncology": "TruSight Oncology UMI"
+        }
+      }
+    },
     "detailed": {
+      "base_mask_field": {
+       "label": "Base mask field",
+        "type": "string",
+        "default": "",
+        "conditions": {
+          "value": {
+            "UMI": {
+              "BRONCO": "y*,I*,y*,y*",
+              "LYNX": "y*,I*,y*,y*"
+            }
+          }
+        }
+      },
       "trim_adapters": {
         "label": "Trim adapters",
         "type": "bool",

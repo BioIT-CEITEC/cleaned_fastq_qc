@@ -22,15 +22,21 @@ rule cleaned_fastq_qc:
     conda:  "../wrappers/cleaned_fastq_qc/env.yaml"
     script: "../wrappers/cleaned_fastq_qc/script.py"
 
-def raw_fastq_qc_input(wildcards):
-    preprocessed = "raw_fastq"
-    if read_pair_tags == ["SE"]:
-        return os.path.join(preprocessed,"{sample}.fastq.gz")
+def preprocess_fastq_qc_input(wildcards):
+    if config["UMI"] == "no_umi":
+        if read_pair_tags == ["SE"]:
+            return os.path.join("raw_fastq","{sample}.fastq.gz")
+        else:
+            return os.path.join("raw_fastq","{sample}_{read_pair_tags}.fastq.gz")
     else:
-        return [os.path.join(preprocessed,"{sample}_R1.fastq.gz"),os.path.join(preprocessed,"{sample}_R2.fastq.gz")]
+        if read_pair_tags == ["SE"]:
+            return os.path.join("umi_fastq","{sample}.fastq.gz")
+        else:
+            return os.path.join("umi_fastq","{sample}_{read_pair_tags}.fastq.gz")
+
 
 rule preprocess:
-    input:  raw = expand("raw_fastq/{{sample}}{read_tags}.fastq.gz",read_tags=pair_tag),
+    input:  umi = expand("umi_fastq/{{sample}}{read_tags}.fastq.gz",read_tags=pair_tag),
     output: cleaned = expand("cleaned_fastq/{{sample}}{read_tags}.fastq.gz",read_tags=pair_tag),
     log:    "logs/{sample}/preprocessing.log"
     threads: 10

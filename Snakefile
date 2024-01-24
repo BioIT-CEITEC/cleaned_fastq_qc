@@ -36,3 +36,4 @@ rule all:
 ##### Modules #####
 
 include: "rules/trimming.smk"
+include: "rules/fastq_prepare.smk"
