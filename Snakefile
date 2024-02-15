@@ -31,7 +31,7 @@ wildcard_constraints:
 
 ##### Target rules #####
 rule all:
-    input: "qc_reports/cleaned_fastq_multiqc.html"
+    input: "qc_reports/processed_fastq_multiqc.html"
 
 ##### Modules #####
 

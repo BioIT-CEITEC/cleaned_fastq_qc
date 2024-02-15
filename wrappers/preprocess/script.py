@@ -22,13 +22,13 @@ f.write("## COMMAND: " + command + "\n")
 f.close()
 shell(command)
 
-if len(snakemake.input.umi) == 2:
+if len(snakemake.input.fastq) == 2:
     is_paired = True
-    fastq_r1 = snakemake.input.umi[0]
-    fastq_r2 = snakemake.input.umi[1]
+    fastq_r1 = snakemake.input.fastq[0]
+    fastq_r2 = snakemake.input.fastq[1]
 else:
     is_paired = False
-    fastq_r1 = snakemake.input.umi[0]
+    fastq_r1 = snakemake.input.fastq[0]
     fastq_r2 = ""
 
 if len(snakemake.output.cleaned) == 2:

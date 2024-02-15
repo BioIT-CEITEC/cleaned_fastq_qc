@@ -1,5 +1,5 @@
 ######################################
-# wrapper for rule: cleaned_fastq_qc
+# wrapper for rule: processed_fastq_qc
 ######################################
 import subprocess
 from os.path import dirname
@@ -10,7 +10,7 @@ shell.executable("/bin/bash")
 log_filename = str(snakemake.log)
 
 f = open(log_filename, 'wt')
-f.write("\n##\n## RULE: cleaned_fastq_qc \n##\n")
+f.write("\n##\n## RULE: processed_fastq_qc \n##\n")
 f.close()
 
 version = str(subprocess.Popen("conda list ", shell=True, stdout=subprocess.PIPE).communicate()[0], 'utf-8')
