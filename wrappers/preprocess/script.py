@@ -31,13 +31,13 @@ else:
     fastq_r1 = snakemake.input.fastq[0]
     fastq_r2 = ""
 
-if len(snakemake.output.cleaned) == 2:
-    fastq_c1 = snakemake.output.cleaned[0]
-    fastq_c2 = " -p " + snakemake.output.cleaned[1]
+if len(snakemake.output.processed) == 2:
+    fastq_c1 = snakemake.output.processed[0]
+    fastq_c2 = " -p " + snakemake.output.processed[1]
     fastq_u1 = snakemake.params.r1u
     fastq_u2 = " --too-short-paired-output " + snakemake.params.r2u
 else:
-    fastq_c1 = snakemake.output.cleaned[0]
+    fastq_c1 = snakemake.output.processed[0]
     fastq_c2 = ""
     fastq_u1 = snakemake.params.r1u
     fastq_u2 = ""

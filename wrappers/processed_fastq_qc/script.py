@@ -25,14 +25,14 @@ f.close()
 shell(command)
 
 if snakemake.params.paired:
-    if re.search("_R1.fastq",str(snakemake.input.cleaned)):
+    if re.search("_R1.fastq",str(snakemake.input.processed)):
         tags = "_R1"
     else:
         tags = "_R2"
 else:
     tags = ""
 
-tag_input_fastq = dirname(snakemake.input.cleaned) + "/" + snakemake.wildcards.sample + tags + ".fastq.gz"
+tag_input_fastq = dirname(snakemake.input.processed) + "/" + snakemake.wildcards.sample + tags + ".fastq.gz"
 
 f = open(log_filename, 'at')
 f.write("## tag_input_fastq: "+tag_input_fastq+"\n")
