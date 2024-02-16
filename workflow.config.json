@@ -12,7 +12,7 @@
     ],
     "report_index": "qc_reports/cleaned_fastq_multiqc.html",
     "reports": [
-      "qc_reports/cleaned_fastq_multiqc.html"
+      "qc_reports/*"
     ]
   },
   "general_params": [
