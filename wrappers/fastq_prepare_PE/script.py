@@ -20,7 +20,6 @@ f.write("## CREATE_OUTPUT_DIR: " + command + "\n")
 f.close()
 shell(command)
 
-
 def replace_last_occurrence(s, old, new):
     # Reverse the string (so the last occurrence becomes the first)
     reversed_s = s[::-1]
@@ -39,7 +38,7 @@ if os.stat(snakemake.input.in_filename).st_size != 0:
     in_filename = snakemake.input.in_filename
     in_filename_R2 = replace_last_occurrence(in_filename, "_R1", "_R2")
     umi = snakemake.params.umi
-    run_name = snakemake.params.run_name
+    print(umi)
 
     if umi == "CORALL":
         command = "umi_tools extract --extract-method=string"+\
@@ -115,10 +114,7 @@ if os.stat(snakemake.input.in_filename).st_size != 0:
         shell(command)
 
         #copy R1
-        if "externally_sequenced_fake" in run_name:
-            command = "cp -T "+in_filename+" "+ snakemake.output.R1
-        else:
-            command = "mv -T "+in_filename+" "+ snakemake.output.R1
+        command = "mv -T "+in_filename+" "+ snakemake.output.R1
 
         f = open(log_filename, 'at')
         f.write("## COMMAND: "+command+"\n")
@@ -126,10 +122,7 @@ if os.stat(snakemake.input.in_filename).st_size != 0:
         shell(command)
 
         #copy R2
-        if "externally_sequenced_fake" in run_name:
-            command = "cp -T "+in_filename_R2+" "+ snakemake.output.R2
-        else:
-            command = "mv -T "+in_filename_R2+" "+ snakemake.output.R2
+        command = "mv -T "+in_filename_R2+" "+ snakemake.output.R2
 
         f = open(log_filename, 'at')
         f.write("## COMMAND: "+command+"\n")
