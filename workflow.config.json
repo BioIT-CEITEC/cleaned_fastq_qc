@@ -11,7 +11,7 @@
       "qc_reports/{sample}/cutadapt/{sample}_preprocessing.log",
       "qc_reports/cleaned_fastq_multiqc.html",
       "qc_reports/{sample}/cleaned_fastqc/*",
-      "logs/{sample}/cleaned_fastqc_{read_pair_tags}.log",
+      "logs/{sample}/cleaned_fastqc_*.log",
       "logs/merge_fastq_qc.log"
     ],
     "report_index": "qc_reports/cleaned_fastq_multiqc.html",
